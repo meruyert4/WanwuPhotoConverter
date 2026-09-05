@@ -1,16 +1,55 @@
-# React + Vite
+# 📸 Wanwu Photo Converter
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**Wanwu Photo Converter** — это быстрый и удобный веб-инструмент, созданный специально для решения проблем с загрузкой фотографий на китайский сервис печати [h5.wanwukeyin.com](https://h5.wanwukeyin.com/). 
 
-Currently, two official plugins are available:
+Часто китайские сайты не принимают формат **HEIC** (стандартные фото с iPhone), а также могут выдавать ошибки при чтении размеров изображения из-за встроенных скрытых метаданных (EXIF) или цветовых профилей (ICC), которые современные смартфоны автоматически добавляют к фотографиям. Этот инструмент решает все эти проблемы в один клик.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## ✨ Как работает конвертер?
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Вся магия происходит **исключительно в вашем браузере**. Никакие фотографии не загружаются на сторонние серверы, что гарантирует полную конфиденциальность и высокую скорость работы.
 
-## Expanding the Oxlint configuration
+1. **Конвертация HEIC**: Приложение использует библиотеку `heic2any` для чтения сложных файлов от Apple и превращения их в универсальный формат.
+2. **Очистка метаданных (Секретный ингредиент)**: Скрипт "перерисовывает" каждое фото на невидимом HTML5 Canvas. Этот процесс естественным образом "стирает" все несовместимые скрытые метаданные (EXIF и ICC профили), оставляя только чистые пиксели изображения. Именно благодаря этому сайт Wanwukeyin успешно принимает файлы!
+3. **Оптимизация размеров**:
+   - Длинная сторона ограничивается до **3000 пикселей** (чтобы фото не было слишком огромным).
+   - Приложение автоматически подбирает качество JPG, чтобы итоговый вес файла не превышал **2.5 МБ**.
+4. **Упаковка**: Готовые "чистые" фотографии нумеруются по порядку (1.jpg, 2.jpg...) и запаковываются в один **ZIP-архив** с помощью `jszip`, готовый к моментальной загрузке.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+---
+
+## 🚀 Как пользоваться приложением
+
+### Требования
+Убедитесь, что у вас установлен [Node.js](https://nodejs.org/).
+
+### Запуск на вашем компьютере
+
+1. Откройте терминал в папке проекта.
+2. Установите зависимости (нужно сделать только один раз):
+   ```bash
+   npm install
+   ```
+3. Запустите локальный сервер:
+   ```bash
+   npm run dev
+   ```
+4. Откройте ссылку (обычно это `http://localhost:5173`) в вашем браузере.
+
+### Использование
+
+1. Просто **перетащите** все нужные фотографии (поддерживаются форматы: .heic, .heif, .jpg, .png, .webp и др.) в специальную зону на сайте.
+2. Нажмите кнопку **Start Conversion**.
+3. Дождитесь, пока напротив каждого файла появится зелёная галочка.
+4. Нажмите **Download ZIP**. Распакуйте архив и загружайте фотографии на сайт печати!
+
+---
+
+## 🛠 Технологии
+
+- **React** + **Vite** — быстрая современная основа приложения.
+- **heic2any** — конвертация форматов Apple.
+- **JSZip** / **file-saver** — архивация и скачивание файлов.
+- **Lucide React** — красивые иконки.
+- Дизайн в стиле **Glassmorphism** написан на чистом CSS.
